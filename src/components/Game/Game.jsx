@@ -7,9 +7,11 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pointsLeft:Math.floor(Math.random() * (120 - 19) + 19),
-            shibeValues:Array.from({length: 4}, () => Math.floor(Math.random() * (12 - 1) + 1))
-            
+            pointsLeft: Math.floor(Math.random() * (120 - 19) + 19),
+            shibeValues: Array.from({ length: 4 }, () => Math.floor(Math.random() * (12 - 1) + 1)),
+            wins: 0,
+            losses: 0,
+            points: 0
         }
     }
 
@@ -19,11 +21,19 @@ class Game extends React.Component {
 
 
     handleShibiClick = e => {
-        console.log(e.target.getAttribute("value"))
+        console.log(e.target.getAttribute("data-value"))
     }
 
     regenPoints = () => {
-        this.setState({pointsLeft:Math.floor(Math.random() * (120 - 19) + 19)})
+        this.setState({
+            pointsLeft: Math.floor(Math.random() * (120 - 19) + 19),
+            shibeValues: Array.from({ length: 4 }, () => Math.floor(Math.random() * (12 - 1) + 1)),
+            points: 0
+        })
+    }
+
+    resetGame = () => {
+        this.setState({wins:0,losses:0}).regenPoints();
     }
 
     componentDidMount = () => {
@@ -41,20 +51,20 @@ class Game extends React.Component {
                 <Row className="text-center">
                     <Col>
                         <h4>Shibi points left:</h4>
-                        <p id="pointsLeft">{this.state.pointsLeft}</p>
+                        <p>{this.state.pointsLeft}</p>
                     </Col>
                     <Col>
-                        <p id="wins">Wins: 0</p>
-                        <p id="losses">Losses: 0</p>
+                        <p>Wins: {this.state.wins}</p>
+                        <p>Losses: {this.state.losses}</p>
                     </Col>
                     <Col>
                         <h4>Your points:</h4>
-                        <p id="yourPoints">0</p>
+                        <p>{this.state.points}</p>
                     </Col>
                 </Row>
                 <Row className="p-5">
                     {this.props.images.map((x, index) => (
-                        <Col xs="12" sm="6" md="3" className="hover-tip p-0 text-center mb-5 pb-1">
+                        <Col xs="12" sm="6" md="3" key={x.name} className="hover-tip p-0 text-center mb-5 pb-1">
                             <OverlayTrigger
                                 placement="bottom"
                                 overlay={
@@ -73,7 +83,7 @@ class Game extends React.Component {
                     <Button variant="primary" onClick={this.handleInstructionsClick}>Instructions</Button>
                 </footer>
             </Container>
-            )
+        )
     }
 }
 
