@@ -21,7 +21,21 @@ class Game extends React.Component {
 
 
     handleShibiClick = e => {
+        const v = parseInt(e.target.getAttribute("data-value"));
         console.log(e.target.getAttribute("data-value"))
+
+        if (this.state.pointsLeft - v === 0) {
+            this.setState({ wins: this.state.wins + 1 });
+            this.regenPoints();
+        } else if (this.state.pointsLeft - v < 0) {
+            this.setState({ losses: this.state.losses + 1 });
+            this.regenPoints();
+        } else {
+            this.setState({
+                pointsLeft: this.state.pointsLeft - v,
+                points: this.state.points + v
+            });
+        }
     }
 
     regenPoints = () => {
@@ -33,11 +47,8 @@ class Game extends React.Component {
     }
 
     resetGame = () => {
-        this.setState({wins:0,losses:0}).regenPoints();
-    }
-
-    componentDidMount = () => {
-
+        this.setState({ wins: 0, losses: 0 });
+        this.regenPoints();
     }
 
     render() {
@@ -79,7 +90,7 @@ class Game extends React.Component {
                 </Row>
 
                 <footer className="page-footer p-4 mt-4 sticky">
-                    <Button variant="primary" id="restart" className="mr-2">Restart</Button>
+                    <Button variant="primary" onClick={this.resetGame} className="mr-2">Restart</Button>
                     <Button variant="primary" onClick={this.handleInstructionsClick}>Instructions</Button>
                 </footer>
             </Container>
