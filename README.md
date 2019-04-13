@@ -2,7 +2,7 @@
 
 ![Shibi Collector](https://image.ibb.co/mJUkGL/shibi.png)
 
-_Original shibi-collector lives here: https://github.com/avhaymart/shibi-collector _
+_Original shibi-collector lives here: https://github.com/avhaymart/shibi-collector_
 
 * Team Members
    * Avonlea Haymart
