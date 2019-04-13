@@ -101,7 +101,7 @@ class Game extends React.Component {
                 </Row>
                 <Row className="p-5">
                     {this.props.images.map((x, index) => (
-                        <Col xs="12" sm="6" md="3" key={x.name} className="hover-tip p-0 text-center mb-5 pb-1">
+                        <Col xs="6" md="3" key={x.name} className="hover-tip p-0 text-center mb-5 pb-1">
                             <OverlayTrigger
                                 placement="bottom"
                                 overlay={
