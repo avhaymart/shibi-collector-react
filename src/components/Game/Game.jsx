@@ -8,17 +8,37 @@ class Game extends React.Component {
         super(props);
         this.state = {
             pointsLeft: Math.floor(Math.random() * (120 - 19) + 19),
-            shibeValues: Array.from({ length: 4 }, () => Math.floor(Math.random() * (12 - 1) + 1)),
+            shibiValues: [0,0,0,0],
             wins: 0,
             losses: 0,
             points: 0
         }
     }
 
+    any = (arr, fn) => {
+        let i=-1;
+        while (++i < arr.length) {
+            if (fn(arr[i])){
+                return true;
+            }
+            if (!arr[i+1]){
+                return false;
+            }
+        }
+    }
+
+    generateShibi = () => {
+        let shibis = Array.from({ length: 4 }, () => Math.floor(Math.random() * (12 - 1) + 1));
+        console.log(shibis);
+        // This makes sure there is always an odd number and an even number
+        if (this.any(shibis, x => x % 2 === 0) && this.any(shibis, x => x % 2 !== 0)) {
+            this.setState({shibiValues:shibis});
+        } else {console.log("not good shibis"); this.generateShibi()};
+    }
+
     handleInstructionsClick = e => {
         this.props.handleView(0);
     }
-
 
     handleShibiClick = e => {
         const v = parseInt(e.target.getAttribute("data-value"));
@@ -41,9 +61,9 @@ class Game extends React.Component {
     regenPoints = () => {
         this.setState({
             pointsLeft: Math.floor(Math.random() * (120 - 19) + 19),
-            shibeValues: Array.from({ length: 4 }, () => Math.floor(Math.random() * (12 - 1) + 1)),
             points: 0
         })
+        this.generateShibi();
     }
 
     resetGame = () => {
@@ -51,6 +71,12 @@ class Game extends React.Component {
         this.regenPoints();
     }
 
+
+    componentDidMount = () => {
+        this.generateShibi()
+    }
+
+  
     render() {
         return (
             <Container>
@@ -83,7 +109,7 @@ class Game extends React.Component {
                                         {x.name} shibi
                                     </Tooltip>
                                 }>
-                                <img onClick={(e) => this.handleShibiClick(e)} data-value={this.state.shibeValues[index]} className="shibe rounded-circle img-fluid" id={x.name} src={x.url} alt={x.name} />
+                                <img onClick={(e) => this.handleShibiClick(e)} data-value={this.state.shibiValues[index]} className="shibe rounded-circle img-fluid" id={x.name} src={x.url} alt={x.name} />
                             </OverlayTrigger>
                         </Col>
                     ))}
